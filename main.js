@@ -28,26 +28,18 @@ class SimonDevGLSLCourse {
     const vsh = await fetch('./shaders/vertex-shader.glsl');
     const fsh = await fetch('./shaders/fragment-shader.glsl');
 
+    const loader = new THREE.TextureLoader();
+    const dogTexture = loader.load('./textures/rocky.jpg');
+
+    const geometry = new THREE.PlaneGeometry(1, 1);
     const material = new THREE.ShaderMaterial({
       uniforms: {
-        color1: { value: new THREE.Vector4(1, 0, 0, 1) },
-        color2: { value: new THREE.Vector4(0, 1, 0, 1) },
+        diffuse: { value: dogTexture },
+        tint: { value: new THREE.Vector4(1, 0.5, 0.5, 1) },
       },
       vertexShader: await vsh.text(),
       fragmentShader: await fsh.text()
     });
-
-    const colors = [
-      new THREE.Color(0xFF0000),
-      new THREE.Color(0x00FF00),
-      new THREE.Color(0x0000FF),
-      new THREE.Color(0xFF00FF),
-    ];
-
-    const colorFloats = colors.map(c => c.toArray()).flat();
-
-    const geometry = new THREE.PlaneGeometry(1, 1);
-    geometry.setAttribute('fonzidevColors', new THREE.Float32BufferAttribute(colorFloats, 3));
 
     const plane = new THREE.Mesh(geometry, material);
     plane.position.set(0.5, 0.5, 0);

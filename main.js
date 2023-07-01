@@ -30,14 +30,24 @@ class SimonDevGLSLCourse {
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
-        color1: { value: new THREE.Vector4(1, 1, 0, 1) },
-        color2: { value: new THREE.Vector4(0, 1, 1, 1) },
+        color1: { value: new THREE.Vector4(1, 0, 0, 1) },
+        color2: { value: new THREE.Vector4(0, 1, 0, 1) },
       },
       vertexShader: await vsh.text(),
       fragmentShader: await fsh.text()
     });
 
+    const colors = [
+      new THREE.Color(0xFF0000),
+      new THREE.Color(0x00FF00),
+      new THREE.Color(0x0000FF),
+      new THREE.Color(0xFF00FF),
+    ];
+
+    const colorFloats = colors.map(c => c.toArray()).flat();
+
     const geometry = new THREE.PlaneGeometry(1, 1);
+    geometry.setAttribute('fonzidevColors', new THREE.Float32BufferAttribute(colorFloats, 3));
 
     const plane = new THREE.Mesh(geometry, material);
     plane.position.set(0.5, 0.5, 0);

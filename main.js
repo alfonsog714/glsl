@@ -30,12 +30,14 @@ class SimonDevGLSLCourse {
 
     const loader = new THREE.TextureLoader();
     const dogTexture = loader.load('./textures/rocky.jpg');
+    const overlayTexture = loader.load('./textures/alphachannel.png');
 
     const geometry = new THREE.PlaneGeometry(1, 1);
     const material = new THREE.ShaderMaterial({
       uniforms: {
         diffuse: { value: dogTexture },
         tint: { value: new THREE.Vector4(1, 0.5, 0.5, 1) },
+        overlay: { value: overlayTexture },
       },
       vertexShader: await vsh.text(),
       fragmentShader: await fsh.text()
